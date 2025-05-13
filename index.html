@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ad Banner</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Paytone+One&display=swap');
+
+        * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        }
+
+        .font_text3 {
+        font-family: "Paytone One", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+        }
+
+        body {
+            background-color: #f4f4f4;
+            width: 300px;
+            height: 600px;
+            cursor: pointer;
+        }
+        .ad-banner {
+            width: 300px;
+            height: 600px;
+            background: linear-gradient(135deg, #ff0000, #8b0000);
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            text-align: center;
+            color: white;
+            font-family: Arial, sans-serif;
+            font-size: 24px;
+            font-weight: bold;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        .logo {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 80px;
+            height: auto;
+            z-index: 2;
+        }
+        .ad-content {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            padding: 20px;
+        }
+        .bike-container {
+            width: 100%;
+            height: 300px;
+            position: relative;
+            overflow: hidden;
+        }
+        .bike-slide {
+            position: absolute;
+            top: 80px;
+            left: 20px;
+            width: 80%;
+            height: 80%;
+            opacity: 0;
+            animation: bikeAnimation 9s infinite;
+        }
+        .bike-slide:nth-child(1) {
+            animation-delay: 0s;
+        }
+        .bike-slide:nth-child(2) {
+            animation-delay: 3s;
+        }
+        .bike-slide:nth-child(3) {
+            animation-delay: 6s;
+        }
+        .bike-slide img {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+        @keyframes bikeAnimation {
+            0%, 33% {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            5%, 28% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+            33%, 100% {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+        }
+        .text-image {
+            width: 200px;
+            height: auto;
+            margin: 20px auto;
+            animation: textScale 2s ease-in-out infinite alternate;
+        }
+        @keyframes textScale {
+            0% {
+                transform: scale(0.95);
+                opacity: 0.7;
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 0.9;
+            }
+        }
+        .form-container {
+            padding: 4px;
+            margin-top: 22px;
+            position: relative;
+            height: 150px;
+        }
+        .form {
+            transition: opacity 0.3s ease;
+        }
+        input[type="text"],
+        input[type="submit"] {
+            width: 200px;
+            padding: 10px;
+            border: none;
+            border-radius: 10px;
+            font-size: 10px;
+            margin-top: 5px;
+        }
+        input[type="text"] {
+            background-color: white;
+            color: #162A50;
+            border: 1px solid white;
+        }
+        input[type="submit"] {
+            width: 200px;
+            padding: 10px;
+            background-color: #162A50;
+            color: white;
+            font-weight: bold;
+            font-size: 10px;
+            cursor: pointer;
+            transition: background 0.3s;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+        input[type="submit"].active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .text {
+            font-size: 20px;
+            color: white;
+            border: 2px solid transparent;
+            border-radius: 5px;
+            animation: floatInScale 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes floatInScale {
+          0% {
+            transform: translateY(-10px) scale(0.95);
+            opacity: 0.7;
+          }
+          50% {
+            transform: translateY(5px) scale(1.05);
+            opacity: 1;
+          }
+          100% {
+            transform: translateY(0px) scale(1);
+            opacity: 0.9;
+          }
+        }
+
+        /* Loading state styles */
+        .loading-state {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(139, 0, 0, 0.8);
+            border-radius: 10px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 10px;
+        }
+
+        .loading-text {
+            color: white;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Thank you state styles */
+        .thank-you-state {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: white;
+            border-radius: 10px;
+            color: rgb(181, 15, 15);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .thank-you-state h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .thank-you-state p {
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="ad-banner" id="clickableArea" onclick="exitAd()">
+        <img src="images/logo.png" alt="Logo" class="logo">
+        <div class="bike-container">
+            <div class="bike-slide">
+                <img src="images/bike1.png" alt="Bike 1">
+            </div>
+            <div class="bike-slide">
+                <img src="images/bike2.png" alt="Bike 2">
+            </div>
+            <div class="bike-slide">
+                <img src="images/bike3.png" alt="Bike 3">
+            </div>
+        </div>
+        <img src="images/text.png" alt="Text" class="text-image">
+        <div class="ad-content">
+            <div class="container">
+                <div class="form-container">
+                    <form class="form" method="post" action="" name="contact-form" onclick="event.stopPropagation();">
+                        <p class="text font_text3">Register Now!</p>
+                        <input class="font_text3" type="text" name="your-name" placeholder="Your Name" /> <br>
+                        <input class="font_text3" type="text" name="your-number" placeholder="Phone Number" /> <br>
+                        <input class="font_text3" type="submit" value="Submit" id="submit" />
+                    </form>
+                    
+                    <div class="loading-state" id="loadingState">
+                        <div class="loading-spinner"></div>
+                        <div class="loading-text font_text3">Processing...</div>
+                    </div>
+                    
+                    <div class="thank-you-state font_text3" id="thankYouState">
+                        <h3>Thank You!</h3>
+                        <p>We'll contact you soon</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const scriptURL = "https://script.google.com/macros/s/AKfycbyogFQENkVOcoEIooqj4dQcAnqO7LX4Qdy1i-SDdl9PDyUkRRfDH54VGexrEZrK7FOr/exec";
+        const form = document.forms["contact-form"];
+        const submitButton = document.getElementById("submit");
+        const nameInput = form.querySelector('input[name="your-name"]');
+        const phoneInput = form.querySelector('input[name="your-number"]');
+        const loadingState = document.getElementById("loadingState");
+        const thankYouState = document.getElementById("thankYouState");
+        const formElement = document.querySelector(".form");
+
+        function checkInputs() {
+            if (nameInput.value.trim() !== '' && phoneInput.value.trim() !== '') {
+                submitButton.classList.add('active');
+            } else {
+                submitButton.classList.remove('active');
+            }
+        }
+
+        nameInput.addEventListener('input', checkInputs);
+        phoneInput.addEventListener('input', checkInputs);
+
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
+            if (submitButton.classList.contains('active')) {
+                // Show loading state
+                formElement.style.opacity = "0";
+                loadingState.style.opacity = "1";
+                
+                fetch(scriptURL, { method: "POST", body: new FormData(form) })
+                    .then((response) => {
+                        // Hide loading state
+                        loadingState.style.opacity = "0";
+                        // Show thank you state
+                        thankYouState.style.opacity = "1";
+                        
+                        // After 1 second, return to form
+                        setTimeout(() => {
+                            thankYouState.style.opacity = "0";
+                            formElement.style.opacity = "1";
+                            form.reset();
+                            submitButton.classList.remove('active');
+                        }, 1000);
+                    })
+                    .catch((error) => {
+                        console.error("Error!", error.message);
+                        loadingState.style.opacity = "0";
+                        formElement.style.opacity = "1";
+                        alert("An error occurred. Please try again.");
+                    });
+            }
+        });
+
+        // Google Ad Click Redirect
+        var clickTag = "https://suzuki.com.bd/offers";
+        function exitAd() {
+            window.open(clickTag, "_blank");
+        }
+    </script>
+
+</body>
+</html>
